@@ -1,0 +1,47 @@
+---
+title: "Arbeitspaln Bachelorarbeit Utz Lovis Rieger"
+author: "Utz Lovis Rieger"
+date: "3 2 2020"
+output:
+  pdf_document: default
+  html_document: default
+bibliography: /home/utz/Bachelor/Bibliographie/BA_ULR.bib
+---
+```{r setup, message=FALSE, warning=TRUE, include=FALSE}
+library(pander)
+library(tibble)
+```
+
+# Ansätze
+Das Ziel der Bachelorarbeit ist die Schöpfung eines Paket in R. für die im Biotechnologie Studiengang üblichen Probleme.
+Hierzu wird auch der didaktische Mehrwert im Mittelpunkt stehen, die Funktionen des Paketes sollten simpel aber funktional sein. 
+Damit das Paket auch ohne R. Studio zugänglich ist wird die Implementation eines GUI über Shiny als Web-App angestrebt.
+
+# Ablauf
+### *03.02.2020* bis *14.02.2020*
+#### 03.02
+
+* Erstellen des Arbeitspaln
+* Sichten alter Protokolle und zugehörigen Datensätzen
+
+#### 04.03 
+
+* Aufarbeiten der alten Datensätze 
+* Beginn der "fit werden mit R."-Phase hierzu gehört Arbeit mit Shiny und R. packages https://r-pkgs.org/intro.html und https://adv-r.hadley.nz/
+
+> WICHTIG in diesem Zeitraum ein erstes Treffen mit GroWi und Andreas Busjahn vereinbaren
+
+#### ab 14.02
+
+* präziesieren der Fragen
+1. Was soll das Paket enthalten
+2. Wie soll es strukturiert sein
+3. Wo liegen die Anforderungen der Biotechnologen 
+
+# Informationsquellen
+* @Kleffe2002
+* @ChrisBeeley2018
+* @Grolemund2017
+* @Wickham2009
+
+# Referenzen
