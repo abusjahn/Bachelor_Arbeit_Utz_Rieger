@@ -28,6 +28,7 @@ Damit das Paket auch ohne R. Studio zugänglich ist wird die Implementation eine
 
 * Aufarbeiten der alten Datensätze 
 * Beginn der "fit werden mit R."-Phase hierzu gehört Arbeit mit Shiny und R. packages https://r-pkgs.org/intro.html und https://adv-r.hadley.nz/
+* enable use_github aus dem Paket usethis
 
 > WICHTIG in diesem Zeitraum ein erstes Treffen mit GroWi und Andreas Busjahn vereinbaren
 
