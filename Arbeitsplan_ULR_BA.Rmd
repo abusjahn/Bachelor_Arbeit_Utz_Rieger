@@ -18,6 +18,12 @@ Hierzu wird auch der didaktische Mehrwert im Mittelpunkt stehen, die Funktionen 
 Damit das Paket auch ohne R. Studio zugänglich ist wird die Implementation eines GUI über Shiny als Web-App angestrebt.
 
 # Ablauf
+Das Langzeitziel besteht aus:
+
+* lauffähigem Paket mit Funktionen für das Biotechnologie Bachelorstudium
+* einem Shiny-Web-Applet auf welchem die Studenten ihre Daten gleich verarbeiten können ohne tiefere Kenntnis bezüglich R.
+* einem robusten Ausreißertest für die Praktika
+
 ### *03.02.2020* bis *14.02.2020*
 #### 03.02
 
