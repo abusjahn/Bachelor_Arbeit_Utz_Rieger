@@ -1,0 +1,81 @@
+---
+title: "Arbeitsplan Bachelorarbeit Utz Lovis Rieger"
+author: "Utz Lovis Rieger"
+date: "3 2 2020"
+output:
+  html_document: default
+  pdf_document: default
+bibliography: /home/utz/Bachelor/Bibliographie/BA_ULR.bib
+---
+```{r setup, message=FALSE, warning=TRUE, include=FALSE}
+library(pander)
+library(tibble)
+```
+
+# Ansätze
+Das Ziel der Bachelorarbeit ist die Schöpfung eines Paket in R. für die im Biotechnologie Studiengang üblichen Probleme.
+Hierzu wird auch der didaktische Mehrwert im Mittelpunkt stehen, die Funktionen des Paketes sollten simpel aber funktional sein. 
+Damit das Paket auch ohne R. Studio zugänglich ist wird die Implementation eines GUI über Shiny als Web-App angestrebt.
+
+# Ablauf
+### *03.02.2020* bis *14.02.2020*
+#### 03.02
+
+* Erstellen des Arbeitsplan
+* Sichten alter Protokolle und zugehörigen Datensätzen
+
+#### 04.03 
+
+* Aufarbeiten der alten Datensätze 
+* Beginn der "fit werden mit R."-Phase hierzu gehört Arbeit mit Shiny und R. packages https://r-pkgs.org/intro.html und https://adv-r.hadley.nz/
+*  enable use_github aus dem Paket usethis
+
+> WICHTIG in diesem Zeitraum ein erstes Treffen mit GroWi und Andreas Busjahn vereinbaren
+
+#### 05.03 
+
+* Arbeitsplan updaten
+* Weiter in r-pgs's einlesen 
+* Shiny erkunden
+
+#### Termin mit GroWi und A. Busjahn um 16:00 CET im FS
+
+Fragen:
+
+* Deutsch oder Englisch (Paket, BA, etc. -> Englisch ist weiter verbreitet aber für die Stundenten teilweise hinderlich)
+* 
+
+
+#### 06.03
+
+* r-pkg's erkunden 
+* Shiny erkunden
+
+#### ab 14.02
+
+* präzisieren der Fragen
+1. Was soll das Paket enthalten
+2. Wie soll es strukturiert sein
+3. Wo liegen die Anforderungen der Biotechnologen 
+
+#### ab 15.02
+
+* Alte Protokolle/Skripte auswerten
+* Funktionen dazu definieren
+
+# 24.02 bis 20.03
+
+* Entwicklung des Paket
+
+### ab 14.04 
+
+* Testen des Paket mit Datensätzen aus den Praktika
+* 
+
+# Informationsquellen
+* @Kleffe2002
+* @ChrisBeeley2018
+* @Grolemund2017
+* @Wickham2009
+
+# Referenzen
