@@ -1,0 +1,18 @@
+Package: OlfaBA
+Title: Auswertungssoftware für das den Versuch Olfaktometrie
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Utz",
+           family = "Rieger",
+           role = c("aut", "cre"),
+           email = "lovis.rieger@me.com",
+           comment = structure("YOUR-ORCID-ID", .Names = "ORCID"))
+Description: Weiche Ware für's BA-Praktikum.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat
+RoxygenNote: 7.0.2
+Imports: 
+    ggplot2
