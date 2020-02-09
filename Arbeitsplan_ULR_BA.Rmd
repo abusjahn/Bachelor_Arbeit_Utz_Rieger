@@ -57,6 +57,12 @@ Fragen:
 * r-pkg's erkunden 
 * Shiny erkunden
 
+#### 10.03
+
+* https://rforbiochemists.blogspot.com/ weiter erkunden
+* Funktionen für GroWi's BA-Praktikum erarbeiten
+* Erste Tests mit Daensätzen aus dem Studiengang
+
 #### ab 14.02
 
 * präzisieren der Fragen
