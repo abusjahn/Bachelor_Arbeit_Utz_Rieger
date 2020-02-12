@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="ULR" />
+
+<meta name="date" content="2020-02-12" />
+
+<title>Vignette zum Paket OlfaBA</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Vignette zum Paket OlfaBA</h1>
+<h4 class="author">ULR</h4>
+<h4 class="date">2020-02-12</h4>
+
+
+
+<div id="das-paket-btba1" class="section level1">
+<h1>Das Paket BTBA1</h1>
+<p>Diese Paket soll als Langzeitalternative die Studenten im Studiengang Biotechnologie vor der Verwendung von Office-Programmen lösen. Laden könnt ihr das Paket über:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">load_all</span>()</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="co">#&gt; Loading OlfaBA</span></a></code></pre></div>
+</div>
+<div id="grundlegendes" class="section level1">
+<h1>Grundlegendes</h1>
+<div id="klassen-und-die-klassenbreite" class="section level2">
+<h2>Klassen und die Klassenbreite</h2>
+<p>In der Biotechnologie ist meist bekannt welcher Klasse eine Stichprobe angehört, die Klassen sind dabei die übergeordneten Gruppen welche wiederum Merkmalswerte enthalten welche in den einzelnen Stichproben wiederzufinden sind. So als Beispiel eine Mehrfachbestimmung aus welcher dann eine Vielzahl technischer Replikate entsteht. Bei einer Absorptionsspektroskopischen Untersuchung zum Beispiel mehrfach Messungen mit gleichen Konzentrationen durchgeführt wobei immer Absorptionen gemessen werden, welche sich im Idealfall, kaum unterscheiden. Die Klasse ist somit schon im Voraus klar. Eine populäre Methode zur Berechnung der Klassenbreite <span class="math inline">\(b\)</span> ist Sturges-Regel <span class="citation">(Sturges 1926)</span> unter Berücksichtigung des Stichproben-Umfangs <span class="math inline">\(n\)</span> und der Spannweite <span class="math inline">\(v\)</span>: <span class="math display">\[ b = \frac{v}{1 + 3.32 \cdot \log n } \approx \frac{v}{5 \log n} \]</span> oder nach Scott <span class="citation">(Scott 1979)</span> unter Berücksichtigung der Standardabweichung <span class="math inline">\(\sigma\)</span> : <span class="math display">\[b = \frac {3{,}49 \cdot \sigma} {\sqrt[3]{n}}\]</span> ## Mittelwert Innerhalb einer solchen Klasse wird dann im eben beschriebenen Beispiel der Mittelwert errechnet. In R geschieht dies über die Funktion <em>mean()</em>. Eine Funktion kann aufgefasst werden als “Miniprogramm”. Damit dieses Miniprogramm läuft braucht es Informationen, diese bekommt es vom Anwender. Diese Information ist, bezogen auf die Berechnung des arithmetischen Mittels, eine gewisse Anzahl von Werten, wobei für die Funktion <em>mean()</em> dabei schon alle wichtigen Information vorhanden sind, nämlich den Stichprobenumfang <span class="math inline">\(n\)</span> sowie die gemessenen Werte <span class="math inline">\(x_i\)</span>: <span class="math display">\[\overline{n} = \frac{1}{n} \sum x_i\]</span> Hierzu verwenden wir die Funktion <em>c()</em>, sie fügt die einzelnen Werte zu einem Vektor zusammen.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; [1] 2.5</span></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># oder auch:</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">2.44</span>, <span class="fl">.56</span>, <span class="fl">0.33</span>, <span class="dv">1234</span>)</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="kw">mean</span>(a)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; [1] 247.666</span></a></code></pre></div>
+<p><strong>Wichtig ist zu beachten dass die Zahlen durch ein Komma getrennt werden und Nachkommastellen durch eine Punkt!</strong> Der Pfeil (<span class="math inline">\(&lt;-\)</span>) dient als Zeichen zur Zuordnung eines Objektes, wie unserem Vektor zu einer Variablen, unser a. Eine Zuweisung in eine Andere Richtung ist unzulässig (<span class="math inline">\(-&gt;\)</span>) So können wir auch gleich eine Zuweisung des Mittelwert zu vornehmen:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">Mittelwert &lt;-<span class="st"> </span><span class="kw">mean</span>(a)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">print</span>(Mittelwert)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; [1] 247.666</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">(Mittelwert)</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; [1] 247.666</span></a></code></pre></div>
+<p>Hier verwenden wir die Funktion <em>print()</em> um gleich den Mittelwert auf die Konsole gepromtet zu bekommen, das geschieht auch wenn wir die Variable <em>Mittelwert</em> umklammern. So auch wenn wir eine ganze Rechenoperation umklammern:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Der Hashtag markiert Zeilen als Kommentar, alles was in der selben</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co"># Zeile auf ihn folgt wird nicht mitinterpretiert</span></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="co"># runif verteitlt nun zehn Werte zufällig zwischen 20 und 200</span></a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">(b &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">10</span>, <span class="dt">min =</span> <span class="dv">20</span>, <span class="dt">max =</span> <span class="dv">200</span>))</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="co">#&gt;  [1] 164.58975  62.60458 153.68428  69.36296  26.13683 169.75890 130.24653</span></a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"><span class="co">#&gt;  [8]  86.92565 127.41367  23.65284</span></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7">(<span class="kw">mean</span>(b))</a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; [1] 101.4376</span></a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">b &lt;-<span class="st"> </span><span class="kw">sort</span>(b) <span class="co"># Überschreiben des alten b zu einem neuen sortierten b</span></a></code></pre></div>
+<p>Die bisher gezeigten Funktionen gehören zu den Paketen {base} und {stats} und sind, im Gebrauch von R.Studio immer vorhanden, anders als Pakete welche explizit geladen werden müssen. Auch zugänglich ist immer das Paket {graphics}:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">c &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">2222</span>, <span class="dv">22</span>, <span class="dv">100</span>) <span class="co"># min und max kann man auch weglassen, ;-)</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">boxplot</span>(b, c) <span class="co"># Ein einfacher Boxplot aus den Objekten a und b</span></a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">hist</span>(c) <span class="co"># Histogramm</span></a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">nclass.Sturges</span>(c) <span class="co"># Berechnung der Klassenbreite nach Sturges</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; [1] 13</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="kw">nclass.scott</span>(c) <span class="co"># Berechnung der Klassenbreite nach Scott</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="co">#&gt; [1] 13</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw">hist</span>(c, </a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">     <span class="dt">nclass =</span> <span class="dv">13</span>, <span class="co"># Wählen der Klassenbreite</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">     <span class="dt">main =</span> <span class="st">&quot;Klassenbreite = 13&quot;</span> <span class="co"># einfügen einer Überschrift</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">     ) </a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --> Das Paket {graphics} enthält eine umfassenden Sammlung an einfachen Plottingfunktionen, wer sich dafür interessiert ist unter <a href="https://www.rdocumentation.org/packages/graphics/versions/3.6.2" class="uri">https://www.rdocumentation.org/packages/graphics/versions/3.6.2</a> an der richtigen Stelle.</p>
+</div>
+<div id="steuerungsparameter" class="section level2">
+<h2>Steuerungsparameter</h2>
+<p>Um beurteilen zu können ob ein Experiment Informationen liefert, die im Kontext zur Durchführung sinnvoll scheinen, können wir untersuchen wie die einzelnen Messwerte mit einander korrelieren. Im Fall einer vierfach-Bestimmung ist das einfach nachvollziehbar:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">mean</span>( <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>) )</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co">#&gt; [1] 2.5</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="kw">mean</span>( <span class="kw">c</span>(<span class="dv">2</span>,<span class="fl">2.5</span>,<span class="dv">3</span>,<span class="fl">2.5</span>))</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="co">#&gt; [1] 2.5</span></a></code></pre></div>
+<p>Die technischen Replikate der ersten Messung liegen weit auseinander aber haben das selbe arithmetische Mittel wie die der zweiten Messung welche aber doch recht ähnliche Ergebnisse liefert!</p>
+<p>Um einen Wert für die Abweichung der Messpunkte einer Messung zu einander zu können wir die Summe der Abweichungsquadrate <span class="math inline">\(SQ\)</span> ermitteln: <span class="math display">\[SQ:=\sum\limits_{i=1}^n (x_i - \overline x)^2=(n-1) s_x^2\]</span> Wobei nun immer nur ein einzelner Punkt betrachtet wird, für die Messung selbst ist die Varianz <span class="math inline">\(s_x^2\)</span> von Interesse, sie beschreibt die Summe aller <span class="math inline">\(SQ\)</span>: <span class="math display">\[s_{x}^{2}=\frac{1}{n-1} \sum \limits_{i=1}^n\left(x_i-\overline x\right)^2\]</span> Die dazugehörige Funktion in R heißt <em>var()</em>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">var</span>( <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; [1] 1.666667</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">var</span>( <span class="kw">c</span>(<span class="dv">2</span>,<span class="fl">2.5</span>,<span class="dv">3</span>,<span class="fl">2.5</span>))</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; [1] 0.1666667</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw">var</span>( <span class="kw">rep</span>(<span class="fl">2.5</span>, <span class="dv">4</span>)) <span class="co"># rep() lässt einen Vektor aus vier mal 2,5 entstehen!</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; [1] 0</span></a></code></pre></div>
+<p>Die Standardabweichung <span class="math inline">\(s = \sqrt{s_x^2}\)</span> wiederum ist die positive Wurzel der Varianz und bekommt die den Namen <em>sd()</em>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">sqrt</span>(<span class="kw">var</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>))) <span class="co"># sqrt() ist die Quadratwurzel</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; [1] 1.290994</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="kw">var</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)) <span class="op">^</span><span class="st"> </span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>) <span class="co"># Wobei es auch so geht</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; [1] 1.290994</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw">sd</span>( <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt; [1] 1.290994</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="kw">sd</span>( <span class="kw">c</span>(<span class="dv">2</span>,<span class="fl">2.5</span>,<span class="dv">3</span>,<span class="fl">2.5</span>))</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; [1] 0.4082483</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="kw">sd</span>( <span class="kw">rep</span>(<span class="fl">2.5</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; [1] 0</span></a></code></pre></div>
+<blockquote>
+<p>R eignet sich im Labor super als Taschenrechner-Ersatz, Alle mathematischen Funktionen sind vorhanden, die Rechnungen können auch leicht modifiziert werden und wenn man sie als Skript schreibt kann super nachvollzogen werden was gerechnet wurde! Dies hilft auch sich an die Sprache R zu gewöhnen, sollte aber kein allzu aufwendiger Prozess werden :-) (Ich hab’s ja auch geschafft)</p>
+</blockquote>
+<p>Möchten wir etwas mehr über unseren Mittelwert erfahren dividieren wir die Standard-Abweichung <span class="math inline">\(s\)</span> durch die Wurzel des Stichprobenumfang, also den Standardfehler <span class="math inline">\(s_{\bar{x}}=\frac{s}{\sqrt{n}}\)</span>. Wir haben nun alle Werkzeuge um die Funktion für den Standardfehler selbst zu definieren. Dazu verwenden wir den Befehl <em>function()</em>:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">sde &lt;-<span class="st"> </span><span class="cf">function</span>(x) { <span class="co"># die Runde Klammer definiert das Argument der Funktion</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="co"># Die geschweifte Klammer enthält die Definition der Funktion</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">  <span class="kw">sd</span>(x)<span class="op">/</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="st">    </span><span class="kw">sqrt</span>(<span class="kw">length</span>(x)) <span class="co"># length() ist die länge des Vektors von x</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw">sde</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; [1] 0.6454972</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="kw">sde</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="fl">2.5</span>,<span class="dv">3</span>,<span class="fl">2.5</span>))</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; [1] 0.2041241</span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="kw">sde</span>(<span class="kw">rep</span>(<span class="fl">2.5</span>, <span class="dv">4</span>))</a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; [1] 0</span></a></code></pre></div>
+<div id="refs" class="references">
+<div id="ref-10.1093/biomet/66.3.605">
+<p>Scott, David W. 1979. “On optimal and data-based histograms.” <em>Biometrika</em> 66 (3): 605–10. <a href="https://doi.org/10.1093/biomet/66.3.605">https://doi.org/10.1093/biomet/66.3.605</a>.</p>
+</div>
+<div id="ref-doi:10.1080/01621459.1926.10502161">
+<p>Sturges, Herbert A. 1926. “The Choice of a Class Interval.” <em>Journal of the American Statistical Association</em> 21 (153). Taylor &amp; Francis: 65–66. <a href="https://doi.org/10.1080/01621459.1926.10502161">https://doi.org/10.1080/01621459.1926.10502161</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
