@@ -69,6 +69,7 @@ Fragen:
 * Alle bisher vorhandenen Funktionen in EINER Datei zusammenführen
 * diese lauffähig machen 
 * Probleme bei der definition von Funktionen beheben
+* Über switch(){} eine Plottingfunktion für alle plots generieren 
 
 #### ab 20.02
 
