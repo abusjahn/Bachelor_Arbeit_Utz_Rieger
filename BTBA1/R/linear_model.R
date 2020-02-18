@@ -10,9 +10,11 @@
 #' @export
 #'
 LinMod_CEv <- function(abs, conc) {
-  (
+  return(
   stats::lm(
-    abs ~ conc
+    conc ~ abs
   )
 )
+  return(summary(LinMod_CEv))
 }
+

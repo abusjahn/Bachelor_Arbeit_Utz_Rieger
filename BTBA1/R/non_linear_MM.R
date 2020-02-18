@@ -2,12 +2,15 @@
 #'
 #' @param sub list
 #' @param vel list
-#' @param V_max float
-#' @param K_m float
-non_linear_MM <- function(sub, vel, V_max, K_m){
-  ggplot2::ggplot(mapping = ggplot2::aes(x=sub, y=vel))+
+#' @param V_max_start float
+#' @param K_m_start float
+non_linear_MM <- function(sub, velo, V_max_start , K_m_start){ # ich würde gerne die Argumente V_max_start und K_m_start auf die Variablen K_m und V_max übertragen
+  fit <- stats::nls(velo ~ (V_max * sub) / (K_m + sub),
+              start = c(V_max_start = V_max , K_m_start = K_m)) %>%  # hier sind die Variablen als Starwerte füe das Modell
+              base::summary() %>%
+              base::print()
+  ggplot2::ggplot(mapping = ggplot2::aes(x = sub, y = velo))+
     ggplot2::geom_point()+
-    ggplot2::geom_smooth(method = "nls",
-                method.args = base::list(formula = y ~ Vmax * x / (Km + x),
-                                   start = base::list(Vmax = V_max, Km = K_m)))
+    ggplot2::stat_function(fun = function(sub){ (stats::coef(fit)[[1]] * sub) / (stats::coef(fit)[[2]] + sub)})
 }
+

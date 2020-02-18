@@ -1,14 +1,20 @@
-#' Generischer Workflow Konzentrationsbestimmung durch Regression
+#' concentration evaluation
 #'
-#' Hiermit kannst du die Ergebnisse deiner Standardreihe (Absrptionsmessung jeder Art) Plotten, bewerten und
-#' die Konzentration deinrt Unbekannten Probe bestimmen.
-#' Verdünnunsfaktoren sind noch kein Bestandteil der Funktionen
-#'
-#' @param abs_P float
+#' @param abs_P absorption of a unknown sample
+#' @param abs_std absorption of calibrationstandards
+#' @param conc_std concentration of calibrationstandards
 #'
 #' @return float
 #'
 #' @export
-Konzentration <- function(abs_P){
-  (abs * LinMod_CEv$coefficients[2] + LinMod_CEv$coefficients[1])
+conc_eval <- function(abs_P, abs_std, conc_std){
+  (LinMod <- stats::lm(
+                       conc_std ~ abs_std)
+  ) %>%
+    base::summary() %>%
+    pander::pander() %>%
+    base::print()
+  base::print(
+              abs_P * LinMod$coefficients[2] + LinMod$coefficients[1]
+  )
 }

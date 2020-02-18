@@ -2,12 +2,11 @@
 title: "Vignette zum Paket OlfaBA"
 author: "ULR"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
-bibliography: "/home/bachelor/Bachelor/Bibliographie/Bibliogrphie_BA_1.bib"
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output:
+  html_document: default
+bibliography: /home/bachelor/Bachelor/Bibliographie/Bibliogrphie_BA_1.bib
+vignette: |
+  %\VignetteIndexEntry{Vignette Title} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
@@ -29,6 +28,15 @@ load_all()
 ```
 
 # Grundlegendes
+## Merkmale
+Bei Studenten wird zur Qualitätsbewertung von Dozenten eigentlich immer nur zwischen "gut" oder "schlecht" unterscieden, so wie wir Farben als "grün" oder "rot" usw. bezeichnen, es gibt keine zwischengelagerten Zustände.
+Sollte eine solche Einteilung vorgenommen werden, so liegt eine Nominalskala vor.
+Das Gegenteil ist die Ordinalskala, sie kennt beliebig viele diskrete Zustände wie wir sie zum Beispiel am $pH$-Meter während einer Titration ablesen können.
+Alternativ kann man natürlich auch beim Dozente-Ranking Punkte und sogar Punkte mit Nachkommastellen vergeben.
+Abängig von diesen Merkmalen stehen uns verschiedene Möglichkeiten zur Verfügung, was im Anschluss mit unseren Messdaten geschieht und wie sie zu behandeln sind.
+Die Intervallskala hingegen erlaubt es die Differenzen auf der Ordinalskala (Intervalle) miteinzubeziehen, also eine Merkmalsausprägung.
+Zuletzt bleibt die Verhälnisskala, welche wie ihr Name verrät, Verhälnisse miteinbezieht und somit einen Vergleich unterschiedlicher Messungen erlaubt (*Covarianz* als Beispiel).
+
 ## Klassen und die Klassenbreite
 In der Biotechnologie ist meist bekannt welcher Klasse eine Stichprobe angehört, die Klassen sind dabei die übergeordneten Gruppen welche wiederum Merkmalswerte enthalten welche in den einzelnen Stichproben wiederzufinden sind.
 So als Beispiel eine Mehrfachbestimmung aus welcher dann eine Vielzahl technischer Replikate entsteht.
@@ -38,6 +46,7 @@ Eine populäre Methode zur Berechnung der Klassenbreite $b$ ist Sturges-Regel [@
 \[ b = \frac{v}{1 + 3.32 \cdot \log n } \approx \frac{v}{5 \log n} \]
 oder nach Scott [@10.1093/biomet/66.3.605] unter Berücksichtigung der Standardabweichung $\sigma$ :
 \[b = \frac {3{,}49 \cdot \sigma} {\sqrt[3]{n}}\]
+
 ## Mittelwert
 Innerhalb einer solchen Klasse wird dann im eben beschriebenen Beispiel der Mittelwert errechnet.
 In R geschieht dies über die Funktion *mean()*.
@@ -84,7 +93,9 @@ hist(c,
      main = "Klassenbreite = 13" # einfügen einer Überschrift
      ) 
 ```
+
 Das Paket {graphics} enthält eine umfassenden Sammlung an einfachen Plottingfunktionen, wer sich dafür interessiert ist unter https://www.rdocumentation.org/packages/graphics/versions/3.6.2 an der richtigen Stelle.
+
 
 ## Steuerungsparameter
 
@@ -129,5 +140,107 @@ sde <- function(x) { # die Runde Klammer definiert das Argument der Funktion
 sde(c(1, 2, 3, 4))
 sde(c(2,2.5,3,2.5))
 sde(rep(2.5, 4))
+```
+Der Variationskoeffizient drückt prozentual die Abweichung der Standardabweichung zum arithmetischen Mittel aus $\left(cv=\frac{s}{\bar{x}}\cdot 100 \% \right)$.
+```{r}
+cv <- function(x){
+return( (sd(x)/mean(x))*100 ) # return() lässt, wie die doppelte Umklammerung das Ergebnis sofort erscheinen
+}
+cv(c(1, 2, 3, 4))
+cv(c(2,2.5,3,2.5))
+cv(rep(2.5, 4))
+```
+Der Variationskoeffizient lässt zu, dass wir verschiedene Stichproben mit unterschiedlichen Mitteln vergleichen:
+```{r}
+a <- c(500, 350, 400, 330, 370)
+b <- c(50, 35, 40, 33, 37)
+c <- c(234, 3, 44, 577, 9)
+cv(a)
+cv(b)
+cv(c)
+```
+
+## Lineare Regression
+Die lineare Regression ist eine recht häufig verwendete Methode in der BT, als klassisches Beispiel ist die Konzentrationsbestimmung über eine Regrssion ("Eichgerade", "Kalibrationsgerade" etc.) zu nennen.
+Das Paket OlFaBA enthält die Funktion *plot_regression()* um schnell eine solche Regressionsgerade zu plotten:
+```{r}
+conc <- seq(0, 20, 5) 
+abs <- runif(5, 0, 1) + conc # Simmulierte Absorptionsmessung
+plot_regression(abs, conc)  # Plotten den Absorption gegen Konzentration
+```
+
+Dieser Plott zeigt uns, in grau hinterlegt die gleitenden durchnittliche Abweichung, auch ein Maß für die Zuverlässigkeit unserer Arbeitsweise, es könnt auch anders aussehen:
+```{r}
+conc <- seq(0, 20, 5) 
+abs <- sort(runif(5, 0, 1)) + conc # Simmulierte Absorptionsmessung
+plot_regression(abs, conc)  # Plotten den Absorption gegen Konzentration
+```
+
+Aber schlimmer geht ja bekanntlich immer: 
+```{r}
+conc <- seq(0, 20, 5) 
+abs <- runif(5, 0, 5) + conc # Simmulierte Absorptionsmessung
+plot_regression(abs, conc)  # Plotten den Absorption gegen Konzentration
+Modell <- LinMod_CEv(abs, conc)
+summary(Modell)
+```
+
+Das $R^2$ gibt uns bekanntlich die Genauigkeit unserer Regressionsgerade an, es wird als Bestimmtheitsmaß bezeichnet.
+Alternativ wird im Laborjargon häufig auch der Begriff "Quadratfehler" verwendet. 
+Um an diese Information zu kommen verwenden wir hierbei explizit eine Funktion aus dem Paket {base}, nämlich *summary()*, diese Funktion liefert uns eine Menge an Information, die wirklich relevanten sind hier zusammengestellt:
+```{r echo=FALSE}
+pander(summary(Modell))
+```
+
+**Intercept** ist der Schnittpunkt mit der $y$-Achse also $b$ und der Steigung $m$ als **conc** für $y = m x + b$.
+Damit kann jetzt auch weitergearbeitet werden, nun kann die Konzentration einer unbekannten Probe über ihre Absorption bestimmt werden.
+Dafür steht in {OlFaBA} die Funktion *conc_eval()* zur Verfügung, bevor wir diese jedoch verwenden muss *LinMod_CEv()* für die Standardreihe durchgeführt worden sein, im Beispiel mit realen Messdaten:
+```{r}
+conc <- seq(0, 100, length.out = 6) # Ein Vektor der Länge 6, die Konzentrationen den Standards
+abs <- c(.374, .5, .617, .78, .874, .985) # Die Real gemessenen Konzentrationen 
+conc_eval(abs_P = abs, abs_std = abs, conc_std = conc) #Berechnung der Konzentrationen der gemessenen Absorptionen aus dem Modell
+```
+Teil der Funktion conc_eval() ist es, die errechneten Daten in einer Tabelle darzustellen, diese kann besonders gut bei der Verwendung von R Markdown zur Geltung kommen.
+```{r echo=FALSE}
+KonzBer <- conc_eval(abs_P = abs, abs_std = abs, conc_std = conc)
+daten <- tibble("Absorption"= abs, "Ist-Konzentration" = conc , "Berechnete Konzentration" = KonzBer)
+pander(daten)
+```
+
+## Nicht-lineare Regressionen
+### Nicht-lineare Regression für die Michaelis-Menten-Funktion
+Die Michaelis-Menten Gleichung kann mathematisch beschrieben werden als:
+\[v_0 = \frac{v_\mathrm{max} \cdot [\mathrm S]}{K_{\mathrm m} + [\mathrm S]}\]
+Wir können uns als nächstes wieder Test-Daten simulieren:
+```{r}
+sub <-seq(0,19,1)
+velo <-(
+  (runif(1,14.7,15)*sub
+  )/( # Könnt ihr die MM-Kinetik wiedererkennen? ;-)
+    runif(1,2.5,3)+sub))+rnorm(20,0,.3)
+Daten <- tibble(sub, velo)
+
+fit <- nls(velo ~ (V_max * sub) / (K_m + sub),
+           start = c(V_max = 15 , K_m = .5))
+coef(fit)
+
+ggplot(mapping = aes(x = sub, y = velo))+
+  geom_point()+
+  stat_function(fun = function(sub){ (coef(fit)[[1]] * sub) / ( coef(fit)[[2]] + sub)}, color = "blue")+ # einzeichnen des Fitting
+  geom_hline(yintercept = coef(fit)[[1]])+ # Vmax aus coefficents eintragen
+  geom_text(aes(0,coef(fit)[[1]],label = round(coef(fit)[[1]], digits = 3), vjust = 1.4), hjust = .3 )+ # Vmax aus coefficents eintragen
+  geom_hline(yintercept =( coef(fit)[[1]])/2,)+ # Vmax/2 aus coefficents
+  geom_text(aes(0,(coef(fit)[[1]])/2,label = "Vmax/2", vjust = 1.4), hjust = .3)+ # Vmax/2 aus coefficents eintragen
+  geom_vline(xintercept = coef(fit)[[2]])+ # Km aus coefficents
+  geom_text(aes(0,coef(fit)[[2]],label = round(coef(fit)[[2]], digits = 3), vjust = 1.41), hjust = -2.3) # Km aus coefficents eintragen 
+```
+
+> Das hier funktioniert leider überhaupt nicht wie gedacht...:
+Die Start-Werte können nicht, wie im Beispiel oben, in die Funktion übertragen werden, ich würde mich sehr über Hilfe freuen, 
+in non_linear_MM.R habe ich zusätzliche Kommentare eingefügt
+
+Im nächsten Schritt soll ein Fitting für die Substratvariation gegen die Enzymaktivität vorgenommen werden: 
+```{r}
+# non_linear_MM(sub = sub, velo = velo, V_max_start = 10, K_m_start = 5)
 ```
 

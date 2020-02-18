@@ -7,9 +7,9 @@
 Eadie_Hofstee(vel, sub)
 }
 \arguments{
-\item{vel}{list}
+\item{vel}{Velocity}
 
-\item{sub}{list}
+\item{sub}{Substarate concentration}
 }
 \description{
 Draw an Eadie-Hofstee graph (and compute the y-axis intercept)
