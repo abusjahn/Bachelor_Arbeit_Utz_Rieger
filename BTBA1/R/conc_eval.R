@@ -1,8 +1,8 @@
 #' Generischer Workflow Konzentrationsbestimmung durch Regression
 #'
-#' Hiermit kannst du die Ergebnisse deiner Standardreihe (Absrptionsmessung jeder Art) Plotten, bewerten und
-#' die Konzentration deinrt Unbekannten Probe bestimmen.
-#' Verdünnunsfaktoren sind noch kein Bestandteil der Funktionen
+#' Hiermit kannst du die Ergebnisse deiner Standardreihe (Absorptionsmessung jeder Art) plotten, bewerten und
+#' die Konzentration deiner unbekannten Probe bestimmen.
+#' Verdünnungsfaktoren sind noch kein Bestandteil der Funktionen
 #'
 #' @param abs_P float
 #'
