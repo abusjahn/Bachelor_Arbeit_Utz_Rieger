@@ -71,7 +71,14 @@ Fragen:
 * Probleme bei der definition von Funktionen beheben
 * Über switch(){} eine Plottingfunktion für alle plots generieren 
 
-#### ab 20.02
+
+# 24.02 bis 01.03
+
+* Zusammenfassung der bisher geleisteten Arbeit 
+* Beispielauswertung
+
+
+#### ab 01.03
 
 * präzisieren der Fragen
 1. Was soll das Paket enthalten
@@ -80,9 +87,6 @@ Fragen:
 * Alte Protokolle/Skripte auswerten
 * Funktionen dazu definieren
 
-# 24.02 bis 20.03
-
-* Entwicklung des Paket
 
 ### ab 14.04 
 
