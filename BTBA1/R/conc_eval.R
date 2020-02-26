@@ -10,10 +10,8 @@
 conc_eval <- function(abs_P, abs_std, conc_std){
   (LinMod <- stats::lm(
                        conc_std ~ abs_std)
-  ) %>%
-    base::summary() %>%
-    pander::pander() %>%
-    base::print()
+  )
+    base::print(base::summary(LinMod))
   base::print(
               abs_P * LinMod$coefficients[2] + LinMod$coefficients[1]
   )

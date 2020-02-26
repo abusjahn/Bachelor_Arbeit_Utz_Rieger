@@ -12,9 +12,9 @@ Lineweaver_Burk <- function(sub, vel){
       method = "lm",
       fullrange = TRUE
     )+
-    ggplot2::scale_x_continuous(expand=c(0,0), limits=c(0, max(1/sub+ 1))) +
-    ggplot2::scale_y_continuous(expand=c(0,0), limits=c(0, max(1/vel + .01))) +
-    ggplot2::ggtitle("Lineweaver-Burk-Plot")
+   ggplot2::scale_x_continuous(expand=c(0,0), limits=c(0, max(1/sub+ 1))) +
+   ggplot2::scale_y_continuous(expand=c(0,0), limits=c(0, max(1/vel + .01))) +
+   ggplot2::ggtitle("Lineweaver-Burk-Plot")
 #  Velo <-1/vel
 #  Subs <- 1/sub
 #  stats::coefficients(

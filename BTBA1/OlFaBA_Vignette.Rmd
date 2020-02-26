@@ -178,6 +178,17 @@ plot_regression(abs, conc)  # Plotten den Absorption gegen Konzentration
 
 Aber schlimmer geht ja bekanntlich immer: 
 ```{r}
+# Erstellen einer Funktion:
+LinMod_CEv <- function(abs, conc) {
+  return(
+  stats::lm(
+    conc ~ abs
+  )
+)
+  return(summary(LinMod_CEv))
+}
+
+
 conc <- seq(0, 20, 5) 
 abs <- runif(5, 0, 5) + conc # Simmulierte Absorptionsmessung
 plot_regression(abs, conc)  # Plotten den Absorption gegen Konzentration
@@ -213,26 +224,33 @@ Die Michaelis-Menten Gleichung kann mathematisch beschrieben werden als:
 \[v_0 = \frac{v_\mathrm{max} \cdot [\mathrm S]}{K_{\mathrm m} + [\mathrm S]}\]
 Wir können uns als nächstes wieder Test-Daten simulieren:
 ```{r}
-sub <-seq(0,19,1)
+sub <-seq(1,20,1)
 velo <-(
   (runif(1,14.7,15)*sub
   )/( # Könnt ihr die MM-Kinetik wiedererkennen? ;-)
     runif(1,2.5,3)+sub))+rnorm(20,0,.3)
 Daten <- tibble(sub, velo)
-
-fit <- nls(velo ~ (V_max * sub) / (K_m + sub),
+# Fitting über vorgegebene Startwerte
+fit <- nls(velo ~ (V_max * sub) / (K_m + sub), 
            start = c(V_max = 15 , K_m = .5))
 coef(fit)
+# Fitting über ein selfstart-Modell
+fit2 <- nls(velo ~ SSmicmen(sub, Vm, K))
+coef(fit2)
 
-ggplot(mapping = aes(x = sub, y = velo))+
-  geom_point()+
-  stat_function(fun = function(sub){ (coef(fit)[[1]] * sub) / ( coef(fit)[[2]] + sub)}, color = "blue")+ # einzeichnen des Fitting
-  geom_hline(yintercept = coef(fit)[[1]])+ # Vmax aus coefficents eintragen
-  geom_text(aes(0,coef(fit)[[1]],label = round(coef(fit)[[1]], digits = 3), vjust = 1.4), hjust = .3 )+ # Vmax aus coefficents eintragen
-  geom_hline(yintercept =( coef(fit)[[1]])/2,)+ # Vmax/2 aus coefficents
-  geom_text(aes(0,(coef(fit)[[1]])/2,label = "Vmax/2", vjust = 1.4), hjust = .3)+ # Vmax/2 aus coefficents eintragen
-  geom_vline(xintercept = coef(fit)[[2]])+ # Km aus coefficents
-  geom_text(aes(0,coef(fit)[[2]],label = round(coef(fit)[[2]], digits = 3), vjust = 1.41), hjust = -2.3) # Km aus coefficents eintragen 
+tibble(coef(fit), coef(fit2)) %>% 
+  print() %>% 
+  pander()
+
+ggplot2::ggplot(mapping = ggplot2::aes(x = sub, y = velo))+
+  ggplot2::geom_point()+
+  ggplot2::stat_function(fun = function(sub){ (coef(fit)[[1]] * sub) / ( coef(fit)[[2]] + sub)}, color = "blue")+ # einzeichnen des Fitting
+  ggplot2::geom_hline(yintercept = coef(fit)[[1]])+ # Vmax aus coefficents eintragen
+  ggplot2::geom_text(aes(0,coef(fit)[[1]],label = round(coef(fit)[[1]], digits = 3), vjust = 1.4), hjust = .3 )+ # Vmax aus coefficents eintragen
+  ggplot2::geom_hline(yintercept =( coef(fit)[[1]])/2,)+ # Vmax/2 aus coefficents
+  ggplot2::geom_text(aes(0,(coef(fit)[[1]])/2,label = "Vmax/2", vjust = 1.4), hjust = .3)+ # Vmax/2 aus coefficents eintragen
+  ggplot2::geom_vline(xintercept = coef(fit)[[2]])+ # Km aus coefficents
+  ggplot2::geom_text(aes(0,coef(fit)[[2]],label = round(coef(fit)[[2]], digits = 3), vjust = 1.41), hjust = -2.3) # Km aus coefficents eintragen 
 ```
 
 > Das hier funktioniert leider überhaupt nicht wie gedacht...:
@@ -241,6 +259,7 @@ in non_linear_MM.R habe ich zusätzliche Kommentare eingefügt
 
 Im nächsten Schritt soll ein Fitting für die Substratvariation gegen die Enzymaktivität vorgenommen werden: 
 ```{r}
-# non_linear_MM(sub = sub, velo = velo, V_max_start = 10, K_m_start = 5)
+plot_MM_direct()
 ```
+
 

@@ -12,8 +12,6 @@ conc_eval(abs_P, abs_std, conc_std)
 \item{abs_std}{absorption of calibrationstandards}
 
 \item{conc_std}{concentration of calibrationstandards}
-
-\item{LinMod}{linear modell}
 }
 \value{
 float
