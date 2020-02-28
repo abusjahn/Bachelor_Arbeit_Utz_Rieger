@@ -5,7 +5,7 @@
 #' @param unstained_prefro in adavance of frosting
 #' @param unstained_defro after frosting
 #' @param unstained_24h 24h after defrosting (and cultivation)
-#' @return vitality 
+#' @return vitality
 
 CellVit <- function(unstained, stained){
     print(
@@ -20,7 +20,7 @@ MultiRate <- function(unstained_defro, unstained_24h){
 yield <- function(unstained_24h, unstained_prefro){
     print(
           (unstained_24h/unstained_prefro) * 100
-    ) 
+    )
 }
 vitality <- function(stained, unstained){
     print(
@@ -32,3 +32,4 @@ vitrate <- function(unstained_prefro, unstained_defro){
           (unstained_defro/unstained_prefro)*100
     )
 }
+

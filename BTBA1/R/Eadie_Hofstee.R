@@ -2,7 +2,11 @@
 #'
 #' @param vel Velocity
 #' @param sub Substarate concentration
-Eadie_Hofstee <- function(vel, sub){
+#' @param titleEDH Title of the plot
+#' @param xlable lable of the abscissa
+#' @param ylable lable of the ordinate
+#'
+Eadie_Hofstee <- function(vel, sub, titleEDH = "Eadie-Hostee-Plot", xlable = "vel/sub", ylable = "sub" ){
   print(  ggplot2::ggplot(mapping = ggplot2::aes(
     x = vel/sub,
     y = vel)
@@ -12,8 +16,11 @@ Eadie_Hofstee <- function(vel, sub){
                          fullrange = TRUE)+
     ggplot2::scale_x_continuous(expand=c(0,0), limits=c(0, base::max(vel/sub))) +
     ggplot2::scale_y_continuous(expand=c(0,0), limits=c(0, base::max(vel)+20))+
-    ggplot2::ggtitle("Eadie-Hostee-Plot"))
+    ggplot2::ggtitle(titleEDH)+
+    ggplot2::xlab(xlable)+
+    ggplot2::ylab(ylable))
   print(base::summary(
     stats::lm(vel/sub~vel)
   ))
 }
+

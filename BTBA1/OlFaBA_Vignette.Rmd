@@ -2,7 +2,9 @@
 title: "Vignette zum Paket OlfaBA"
 author: "ULR"
 date: "`r Sys.Date()`"
+fontfamily: arev
 output:
+  pdf_document: default
   html_document: default
 bibliography: /home/bachelor/Bachelor/Bibliographie/Bibliogrphie_BA_1.bib
 vignette: |
@@ -218,6 +220,17 @@ daten <- tibble("Absorption"= abs, "Ist-Konzentration" = conc , "Berechnete Konz
 pander(daten)
 ```
 
+### Aufgaben
+
+Bereche für eine realtive Absorption von $A_{595} = 0.33$ die Konzentration unter Berücksichtigung der Standardreihe:
+```{r echo=FALSE}
+tibble(
+        "Absoption (bei 595 nm)" = c(0.13, 0.22, 0.30, 0.37, 0.44, 0.49, 0.54, 0.57),
+        "Konzentration in µg/ml" = seq(0, 200, length.out = 8)
+) %>%
+pander()
+```
+
 ## Nicht-lineare Regressionen
 ### Nicht-lineare Regression für die Michaelis-Menten-Funktion
 Die Michaelis-Menten Gleichung kann mathematisch beschrieben werden als:
@@ -229,37 +242,100 @@ velo <-(
   (runif(1,14.7,15)*sub
   )/( # Könnt ihr die MM-Kinetik wiedererkennen? ;-)
     runif(1,2.5,3)+sub))+rnorm(20,0,.3)
-Daten <- tibble(sub, velo)
-# Fitting über vorgegebene Startwerte
-fit <- nls(velo ~ (V_max * sub) / (K_m + sub), 
-           start = c(V_max = 15 , K_m = .5))
-coef(fit)
-# Fitting über ein selfstart-Modell
-fit2 <- nls(velo ~ SSmicmen(sub, Vm, K))
-coef(fit2)
-
-tibble(coef(fit), coef(fit2)) %>% 
-  print() %>% 
-  pander()
-
-ggplot2::ggplot(mapping = ggplot2::aes(x = sub, y = velo))+
-  ggplot2::geom_point()+
-  ggplot2::stat_function(fun = function(sub){ (coef(fit)[[1]] * sub) / ( coef(fit)[[2]] + sub)}, color = "blue")+ # einzeichnen des Fitting
-  ggplot2::geom_hline(yintercept = coef(fit)[[1]])+ # Vmax aus coefficents eintragen
-  ggplot2::geom_text(aes(0,coef(fit)[[1]],label = round(coef(fit)[[1]], digits = 3), vjust = 1.4), hjust = .3 )+ # Vmax aus coefficents eintragen
-  ggplot2::geom_hline(yintercept =( coef(fit)[[1]])/2,)+ # Vmax/2 aus coefficents
-  ggplot2::geom_text(aes(0,(coef(fit)[[1]])/2,label = "Vmax/2", vjust = 1.4), hjust = .3)+ # Vmax/2 aus coefficents eintragen
-  ggplot2::geom_vline(xintercept = coef(fit)[[2]])+ # Km aus coefficents
-  ggplot2::geom_text(aes(0,coef(fit)[[2]],label = round(coef(fit)[[2]], digits = 3), vjust = 1.41), hjust = -2.3) # Km aus coefficents eintragen 
 ```
-
-> Das hier funktioniert leider überhaupt nicht wie gedacht...:
-Die Start-Werte können nicht, wie im Beispiel oben, in die Funktion übertragen werden, ich würde mich sehr über Hilfe freuen, 
-in non_linear_MM.R habe ich zusätzliche Kommentare eingefügt
-
 Im nächsten Schritt soll ein Fitting für die Substratvariation gegen die Enzymaktivität vorgenommen werden: 
 ```{r}
-plot_MM_direct()
+plot_MM_direct(sub, velo)
 ```
 
+### Dose-Response-Modelle
+
+Zu erst sollten wir uns noch ein mal an die Logit-Funkion erinnern.
+Die Logit-Funktion ist der Logarithmus einer Chance $\left( \frac{p}{1-p} \right)$, mit $p$ einer Wahrscheinlichkeit:
+\begin{equation}
+    \begin{array}{rcl}
+L&=&\operatorname{Logit}(p)=\ln \frac{p}{1-p} \\
+&=&2\cdot\mathrm{artanh}(2\cdot p -1)
+\end{array}
+    \label{Logit1}
+\end{equation}
+und deren Umkehrung:
+\begin{equation}
+\begin{array}{rcl}
+p&=&\frac{e^L}{1+e^L}=\frac{1}{1+e^{-L}} \\
+&=& \frac{1}{2}\cdot \left(1 + \tanh \frac{L}{2} \right)
+\end{array} 
+    \label{Logit2}
+\end{equation}
+
+Die 4-Parameter-logistische Funktion kann auch Logit-transformiert werden: 
+
+Dise Funktion wurde zu erst von Robertson \cite{Robertson1908} 1908 in dieser Form als Modell für Biochemische Prozesse vorgeschlagen:
+\begin{equation}
+    \frac{dg}{dz}=\frac{\theta_{3}}{\theta _{1}}g\left( z \right)\left( \theta_{1}-g\left( z \right) \right)
+    \label{4PL1}
+\end{equation}
+mit:
+\begin{description}
+    \item[$z$] einer Konzentration
+    \item[$g\left( z \right)$] der Antwort des Systems auf die Konzentration 
+    \item[$\theta_{1}\, \theta_{3}\in \mathbb{R}$] zusätzliche Parameter
+\end{description}
+Die Lösung der Gleichung führt zu:
+\begin{equation}
+    g\left( z\vert \theta_{1},\theta_2, \theta_3 \right) = \theta_1-\frac{\theta_1}{1 + \left( \frac{z}{\theta_2} \right)^{\theta_3}}
+    \label{4PL2}
+\end{equation}
+Wobei nun noch der vierte Parameter $\theta_{4} \in \mathbb{R}$ eingeführt wird was uns zur 4PLM (4-Parameter logistische Modell):
+\begin{equation}
+    f\left( x\vert \theta \right)=\theta_1 + \frac{\theta_4-\theta1}{1+\left( \frac{z(x)}{\theta_{2}} \right)^{\theta_3}} = 
+    \theta_1 + \frac{\theta_4-\theta1}{1+ 10 ^{\theta_3 \left( x- \log \theta_2  \right)}}
+    \label{4PLM3}
+\end{equation}
+Nun wird eher ersichtlich was die einzelnen Parameter zu bedeuten haben, $\theta_1$ ist die obere Asymptote und $\theta_4$ die untere Asymptote.
+$\theta_2$ ist der Wendepunkt und $\theta_3$ mit der Steigung assoziert.
+Für $\theta_3 < 0$ steigt die Funktion, für $\theta_3 > 0$ sinkt sie.
+Unter Verwendung des Paketes \texttt{nl4pl()} wird ein Modell entsprechend \ref{4PLM3} auf einen Datensatz {$\left( x_i, y_i \right)\vert i =1, 2, \dots, n$} mit $x_i$ als dekadischen Logarithmus von $z$ der $i$-ten Messung und $y_i$ der gemessenen Reaktion darauf, gefittet.
+Die beim Fitting angewandte Verlustfunktion:
+\begin{equation}
+    \mathcal{L}(\theta) = \frac{1}{n}\sum_{i=1}^{n} \left( y_{i} - f(x_i \vert \theta) \right)^2  
+    \label{4PLLoss}
+\end{equation}
+Gewöhnlich ist die Funktion durch die Parameter $\theta$ nichtlinear, deswegen ist die Verringerung von $\mathcal{L}$ zur Konvergenz ein Problem der nichtlinearen Regression.
+Um den in \ref{4PLM3} enthaltenen Term $\left( x-\log\theta \right)$ zu linearisieren kann er in die \textsc{Hill}-Gleichung überführt werden:
+\begin{equation}
+\log \left( \frac{f \left( x \vert \theta \right)-\theta _4}{\theta _1 - f( x \vert \theta )} \right) = \theta_3 x - \theta_3 \log \left( \theta_2 \right)
+    \label{Hill}
+\end{equation}
+Die Logit-Transformation links der durchschnittlischen Anwort des Modells ist äquivalent zur linearen Funktion des $\log x$.
+Es erfolgt eine Ersetzung der Werte für die Asymptoten $\theta_4, \theta_1$:
+\begin{equation}
+    \log \left( \frac{y_{i}-y_{min}}{y_{max}- y_i} \right) \approx -\theta_3 \log \left( \theta_2 \right) + \theta_3 x_i
+    \label{Hill2}
+\end{equation}
+Die Logit-Transformation links der durchschnittlischen Anwort des Modells ist äquivalent zur linearen Funktion des $\log x$.
+Der Rechte Teil aus \ref{Hill2} kann in ein lineares Regressionsproblem überführt werden, das erlaubt uns die Einführung von Grenzen für $\theta_3 \& \theta_2$:
+\begin{equation}
+    \log \left( \frac{y_{i}-y_{min}}{y_{max}- y_i} \right) = \beta_2 + \beta_3 x_i + \varepsilon_i 
+    \label{HillReg}
+\end{equation}
+mit:
+\begin{description}
+    \item[$\beta_2$] $=-\theta _3 \log \left( \theta_{2} \right)$
+    \item[$\beta_3$] $=\theta_3$
+    \item[$\varepsilon_i$] $\sim \mathcal{N}\left( O, \sigma^2 \right)$
+\end{description}
+Diese Grenzen sind charakteristisch für verschiedene Sachverhalte, einige Beispiele:
+
+* kompetitive Immunoessays
+* LD-50 Bestimmung
+* Ermittlung der wahrnehmbaren Konzentration eines Riechstoffes in der Umgebungsluft
+
+Anhand von Daten eines kompetitiven ELISA's aus dem IC-Praktikum wirst du eine Anwendung sehen:
+```{r}
+conc <- c(0, .1, .2, .5, 1, 2, 5, 10, 20, 50) # Die Konzentration
+resp <- c(1.014, 1.057, .996, .929, .856, .758, .586, .373, .284, .197) # die gemessene Absorption
+plot(resp~log(conc)) # Ein einfacher Plot der Daten
+dose_response_plot(conc, resp) # das eigentliche Modell
+```
 

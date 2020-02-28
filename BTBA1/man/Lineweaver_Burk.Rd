@@ -4,12 +4,24 @@
 \alias{Lineweaver_Burk}
 \title{Plot a Lineweaver-Burk diagram and compute the ordinate intercept}
 \usage{
-Lineweaver_Burk(sub, vel)
+Lineweaver_Burk(
+  sub,
+  vel,
+  title = "Lineweaver-Burk-Plot",
+  xlab = "1/sub",
+  ylab = "1/vel"
+)
 }
 \arguments{
-\item{sub}{list}
+\item{sub}{substrate concentration}
 
-\item{vel}{list}
+\item{vel}{enzyme velocity}
+
+\item{title}{title of the plot}
+
+\item{xlab}{lable of the abscissa}
+
+\item{ylab}{lable of the ordinate}
 }
 \description{
 Plot a Lineweaver-Burk diagram and compute the ordinate intercept

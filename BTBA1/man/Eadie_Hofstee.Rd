@@ -4,12 +4,24 @@
 \alias{Eadie_Hofstee}
 \title{Draw an Eadie-Hofstee graph (and compute the y-axis intercept)}
 \usage{
-Eadie_Hofstee(vel, sub)
+Eadie_Hofstee(
+  vel,
+  sub,
+  titleEDH = "Eadie-Hostee-Plot",
+  xlable = "vel/sub",
+  ylable = "sub"
+)
 }
 \arguments{
 \item{vel}{Velocity}
 
 \item{sub}{Substarate concentration}
+
+\item{titleEDH}{Title of the plot}
+
+\item{xlable}{lable of the abscissa}
+
+\item{ylable}{lable of the ordinate}
 }
 \description{
 Draw an Eadie-Hofstee graph (and compute the y-axis intercept)
