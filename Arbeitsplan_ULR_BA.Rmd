@@ -68,7 +68,7 @@ Fragen:
 * Mimipaket mit Vignette zum laufen bringen
 * Alle bisher vorhandenen Funktionen in EINER Datei zusammenführen
 * diese lauffähig machen 
-* Probleme bei der definition von Funktionen beheben
+* Probleme bei der Definition von Funktionen beheben
 * Über switch(){} eine Plottingfunktion für alle plots generieren 
 
 
@@ -76,6 +76,10 @@ Fragen:
 
 * Zusammenfassung der bisher geleisteten Arbeit 
 * Beispielauswertung
+* Minimal-Einführung in R für den Gebrauch der Pakete
+    * unter der Annahme, das nach dem Datenimport mit Vektoren gearbeitet wird
+    * dann Einführung von Tibble
+    * Listen erst am Ende, weil Komplex, irgendwie
 
 
 #### ab 01.03
