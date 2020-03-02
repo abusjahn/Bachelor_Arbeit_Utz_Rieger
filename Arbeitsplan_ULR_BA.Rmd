@@ -30,7 +30,7 @@ Das Langzeitziel besteht aus:
 * Erstellen des Arbeitsplan
 * Sichten alter Protokolle und zugehörigen Datensätzen
 
-#### 04.03 
+#### 04.02 
 
 * Aufarbeiten der alten Datensätze 
 * Beginn der "fit werden mit R."-Phase hierzu gehört Arbeit mit Shiny und R. packages https://r-pkgs.org/intro.html und https://adv-r.hadley.nz/
@@ -38,7 +38,7 @@ Das Langzeitziel besteht aus:
 
 > WICHTIG in diesem Zeitraum ein erstes Treffen mit GroWi und Andreas Busjahn vereinbaren
 
-#### 05.03 
+#### 05.02 
 
 * Arbeitsplan updaten
 * Weiter in r-pgs's einlesen 
@@ -52,12 +52,12 @@ Fragen:
 * 
 
 
-#### 06.03
+#### 06.02
 
 * r-pkg's erkunden 
 * Shiny erkunden
 
-#### 10.03
+#### 10.02
 
 * https://rforbiochemists.blogspot.com/ weiter erkunden
 * Funktionen für GroWi's BA-Praktikum erarbeiten
