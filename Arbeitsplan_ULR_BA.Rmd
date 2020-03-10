@@ -30,7 +30,7 @@ Das Langzeitziel besteht aus:
 * Erstellen des Arbeitsplan
 * Sichten alter Protokolle und zugehörigen Datensätzen
 
-#### 04.03 
+#### 04.02 
 
 * Aufarbeiten der alten Datensätze 
 * Beginn der "fit werden mit R."-Phase hierzu gehört Arbeit mit Shiny und R. packages https://r-pkgs.org/intro.html und https://adv-r.hadley.nz/
@@ -38,7 +38,7 @@ Das Langzeitziel besteht aus:
 
 > WICHTIG in diesem Zeitraum ein erstes Treffen mit GroWi und Andreas Busjahn vereinbaren
 
-#### 05.03 
+#### 05.02 
 
 * Arbeitsplan updaten
 * Weiter in r-pgs's einlesen 
@@ -52,12 +52,12 @@ Fragen:
 * 
 
 
-#### 06.03
+#### 06.02
 
 * r-pkg's erkunden 
 * Shiny erkunden
 
-#### 10.03
+#### 10.02
 
 * https://rforbiochemists.blogspot.com/ weiter erkunden
 * Funktionen für GroWi's BA-Praktikum erarbeiten
@@ -68,10 +68,21 @@ Fragen:
 * Mimipaket mit Vignette zum laufen bringen
 * Alle bisher vorhandenen Funktionen in EINER Datei zusammenführen
 * diese lauffähig machen 
-* Probleme bei der definition von Funktionen beheben
+* Probleme bei der Definition von Funktionen beheben
 * Über switch(){} eine Plottingfunktion für alle plots generieren 
 
-#### ab 20.02
+
+# 24.02 bis 01.03
+
+* Zusammenfassung der bisher geleisteten Arbeit 
+* Beispielauswertung
+* Minimal-Einführung in R für den Gebrauch der Pakete
+    * unter der Annahme, das nach dem Datenimport mit Vektoren gearbeitet wird
+    * dann Einführung von Tibble
+    * Listen erst am Ende, weil Komplex, irgendwie
+
+
+#### ab 01.03
 
 * präzisieren der Fragen
 1. Was soll das Paket enthalten
@@ -80,9 +91,6 @@ Fragen:
 * Alte Protokolle/Skripte auswerten
 * Funktionen dazu definieren
 
-# 24.02 bis 20.03
-
-* Entwicklung des Paket
 
 ### ab 14.04 
 
